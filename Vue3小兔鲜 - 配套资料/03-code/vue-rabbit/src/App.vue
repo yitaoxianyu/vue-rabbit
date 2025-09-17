@@ -1,26 +1,13 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { getCategory } from './apis/category'
 
-const form = ref(null)
-onMounted(() => {
-  getCategory().then((res) => {
-    form.value = res.result;
-  })
-})
 </script>
 
 <template>
-  <el-button type="primary">Primary</el-button>
-  <ul>
-    <li v-for="item in form" :key="item.id">
-        {{ item.name }}
-        <img :src="item.picture"></img>
-    </li>
-  </ul>
+  <!-- 一级路由出口组件 -->
+  <RouterView />
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 header {
   line-height: 1.5;
   max-height: 100vh;
