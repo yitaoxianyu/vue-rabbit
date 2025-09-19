@@ -1,25 +1,4 @@
 <script setup>
-<<<<<<< HEAD
-import { onMounted, ref } from 'vue'
-import { getCategory } from './apis/category'
-
-const form = ref(null)
-onMounted(() => {
-  getCategory().then((res) => {
-    form.value = res.result;
-  })
-})
-</script>
-
-<template>
-  <el-button type="primary">Primary</el-button>
-  <ul>
-    <li v-for="item in form" :key="item.id">
-        {{ item.name }}
-        <img :src="item.picture"></img>
-    </li>
-  </ul>
-=======
 import { RouterView } from 'vue-router'
 
 
@@ -27,7 +6,6 @@ import { RouterView } from 'vue-router'
 
 <template>
     <RouterView/>
->>>>>>> dd71169 (feat:header 内容从后端请求)
 </template>
 
 <style scoped>
