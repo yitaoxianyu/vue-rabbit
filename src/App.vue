@@ -1,4 +1,5 @@
 <script setup>
+<<<<<<< HEAD
 import { onMounted, ref } from 'vue'
 import { getCategory } from './apis/category'
 
@@ -18,6 +19,15 @@ onMounted(() => {
         <img :src="item.picture"></img>
     </li>
   </ul>
+=======
+import { RouterView } from 'vue-router'
+
+
+</script>
+
+<template>
+    <RouterView/>
+>>>>>>> dd71169 (feat:header 内容从后端请求)
 </template>
 
 <style scoped>

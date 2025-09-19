@@ -6,7 +6,10 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+<<<<<<< HEAD
 import ElementPlus from 'unplugin-element-plus/vite'
+=======
+>>>>>>> dd71169 (feat:header 内容从后端请求)
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -31,6 +34,10 @@ export default defineConfig({
         // 自动导入定制化样式文件进行样式覆盖
         additionalData: `
           @use "@/styles/element/index.scss" as *;
+<<<<<<< HEAD
+=======
+          @use "@/styles/var.scss" as *;
+>>>>>>> dd71169 (feat:header 内容从后端请求)
         `,
       }
     }
