@@ -15,7 +15,7 @@ onMounted(async () => {
       <el-carousel-item v-for="item in bannerList" :key="item.id">
         <img
           :src="item.imgUrl"
-          alt=""
+          :alt="item.name"
         />
       </el-carousel-item>
     </el-carousel>
