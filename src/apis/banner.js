@@ -1,7 +1,11 @@
-import request from "@/utils/http";
+import request from '@/utils/http'
 
-export function getBannerAPI(){
-    return request({
-        url : '/home/banner'
-    })
+export function getBannerAPI(params = {}) {
+  const { distributionSite = '1' } = params
+  return request({
+    url: '/home/banner',
+    params: {
+        distributionSite,
+    },
+  })
 }

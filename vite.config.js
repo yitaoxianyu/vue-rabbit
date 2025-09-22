@@ -11,18 +11,18 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-     // ...
+    // ...
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver({importStyle : "sass"})],
+      resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
     }),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
   css: {
     preprocessorOptions: {
@@ -32,7 +32,7 @@ export default defineConfig({
           @use "@/styles/element/index.scss" as *;
           @use "@/styles/var.scss" as *;
         `,
-      }
-    }
-  }
+      },
+    },
+  },
 })
