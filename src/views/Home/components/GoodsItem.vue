@@ -9,10 +9,12 @@ defineProps({
 </script>
 
 <template>
-  <img v-lazy-load="goods.picture" alt="" />
-  <p class="name ellipsis">{{ goods.name }}</p>
-  <p class="desc ellipsis">{{ goods.desc }}</p>
-  <p class="price">&yen;{{ goods.price }}</p>
+  <div class="goods-item">
+    <img v-lazy-load="goods.picture" alt="" />
+    <p class="name ellipsis">{{ goods.name }}</p>
+    <p class="desc ellipsis">{{ goods.desc }}</p>
+    <p class="price">&yen;{{ goods.price }}</p>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -21,7 +23,7 @@ defineProps({
   width: 220px;
   padding: 20px 30px;
   text-align: center;
-  transition: all .5s;
+  transition: all 0.5s;
 
   &:hover {
     transform: translate3d(0, -3px, 0);

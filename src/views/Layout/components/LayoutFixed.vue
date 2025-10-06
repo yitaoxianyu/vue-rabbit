@@ -5,7 +5,6 @@ const { y } = useScroll(window)
 const categoryStore = useCategoryStore();
 
 </script>
-
 <template>
   <div class="app-header-sticky" :class="{show : y > 78}">
     <div class="container">
@@ -13,10 +12,10 @@ const categoryStore = useCategoryStore();
       <!-- 导航区域 -->
       <ul class="app-header-nav">
         <li v-for="item in categoryStore.categoryList" :key="item.id">
-          {{ item.name }}
+            <RouterLink :to="`/category/${item.id}`" active-class="active">{{ item.name }}</RouterLink>
         </li>
       </ul>
-
+      
       <div class="right">
         <RouterLink to="/">品牌</RouterLink>
         <RouterLink to="/">专题</RouterLink>

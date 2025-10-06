@@ -8,3 +8,21 @@ export function getCategoryAPI(id){
         }
     })
 }
+
+export function getSubCategoryAPI(id){
+    return request({
+        url:'/category/sub/filter',
+        params : {
+            id
+        }
+    })
+}
+
+export function getSubCategoryGoodsAPI(data){
+    return request({
+        url:'/category/goods/temporary',
+        data : data,
+        method : 'post'
+    })
+
+}

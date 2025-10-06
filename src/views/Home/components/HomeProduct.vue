@@ -2,35 +2,53 @@
 import { onMounted, ref } from 'vue'
 import { getProductAPI } from '@/apis/product'
 import GoodsItem from './GoodsItem.vue'
-GoodsItem
+import HomePanel from './HomePanel.vue' // 确保导入 HomePanel 组件
 const productList = ref([])
 
 onMounted(async () => {
-  const res = await getProductAPI()
-  console.log(res)
-  productList.value = res.result
+  try {
+    const res = await getProductAPI()
+    console.log('Product API response:', res) // 添加日志查看API响应
+    if (res && res.result) {
+      productList.value = res.result
+      console.log('Product list:', productList.value) // 添加日志查看产品列表
+    } else {
+      console.warn('Product API returned empty result')
+      productList.value = []
+    }
+  } catch (error) {
+    console.error('获取商品数据失败:', error)
+    productList.value = []
+  }
 })
 </script>
 
 <template>
   <div class="home-product">
-    <HomePanel :title="cate.name" v-for="cate in productList" :key="cate.id">
-      <div class="box">
-        <RouterLink class="cover" to="/">
-          <img v-lazy-load="cate.picture" />
-          <strong class="label">
-            <span>{{ cate.name }}馆</span>
-            <span>{{ cate.saleInfo }}</span>
-          </strong>
-        </RouterLink>
-        <ul class="goods-list">
-          <li v-for="goods in cate.goods" :key="goods.id">
-            <RouterLink to="/" class="goods-item">
-              <GoodsItem :goods="goods"/>
-            </RouterLink>
-          </li>
-        </ul>
-      </div>
+    <HomePanel
+      :title="cate.name"
+      :sub-title="cate.saleInfo"
+      v-for="cate in productList"
+      :key="cate.id"
+    >
+      <template #main>
+        <div class="box">
+          <RouterLink class="cover" to="/">
+            <img v-lazy-load="cate.picture" />
+            <strong class="label">
+              <span>{{ cate.name }}馆</span>
+              <span>{{ cate.saleInfo }}</span>
+            </strong>
+          </RouterLink>
+          <ul class="goods-list">
+            <li v-for="goods in cate.goods" :key="goods.id">
+              <RouterLink to="/" class="goods-item">
+                <GoodsItem :goods="goods" />
+              </RouterLink>
+            </li>
+          </ul>
+        </div>
+      </template>
     </HomePanel>
   </div>
 </template>

@@ -1,3 +1,12 @@
+<script setup>
+import GoodsItem from '@/views/Home/components/GoodsItem.vue'
+import { useBanner } from './composables/useBanner.js'
+import { useCategory } from './composables/useCategory.js'
+
+const { bannerList } = useBanner()
+const { categoryData } = useCategory()
+</script>
+
 <template>
   <div class="top-category">
     <div class="container m-top-20">
@@ -20,7 +29,7 @@
         <h3>全部分类</h3>
         <ul>
           <li v-for="i in categoryData.children" :key="i.id">
-            <RouterLink to="/">
+            <RouterLink :to="`/category/sub/${i.id}`">
               <img :src="i.picture" />
               <p>{{ i.name }}</p>
             </RouterLink>
@@ -38,31 +47,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { onMounted, ref } from 'vue'
-import { getCategoryAPI } from '@/apis/categroy'
-import { getBannerAPI } from '@/apis/banner'
-import { useRoute,onBeforeRouteUpdate } from 'vue-router'
-const route = useRoute()
-const categoryData = ref({})
-const bannerList = ref([])
-onMounted(async () => {
-  const res = await getCategoryAPI(route.params.id)
-  categoryData.value = res.result
-})
-
-onMounted(async () => {
-  const res = await getBannerAPI({ distributionSite: '2' })
-  console.log(res)
-  bannerList.value = res.result
-})
-
-onBeforeRouteUpdate((to) => {
-  const res = getCategoryAPI(to.params.id);
-  categoryData.value = res.result;
-})
-</script>
 
 <style lang="scss">
 .top-category {
