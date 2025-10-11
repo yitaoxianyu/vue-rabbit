@@ -1,23 +1,43 @@
 <script setup>
-import { getGoodsDetailAPI } from '@/apis/goods';
-import { onMounted, reactive } from 'vue';
-import { useRoute } from 'vue-router';
-import HotGoods from './Components/HotGoods.vue';
+import { getGoodsDetailAPI } from '@/apis/goods'
+import { onMounted, reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import HotGoods from './Components/HotGoods.vue'
+import { ElMessage } from 'element-plus'
+import { useCartStore } from '@/stores/cart'
 
 const route = useRoute()
 const goodsDetailData = reactive({})
-
+const count = ref(1)
 onMounted(async () => {
   const id = route.params.id
   const res = await getGoodsDetailAPI(id)
   Object.assign(goodsDetailData, res.result)
+  console.log(goodsDetailData)
 })
-const handleSkuChange = (sku) => {
-  console.log(sku)
-} 
+let skuObject = {}
 const onSkuChange = (sku) => {
-  handleSkuChange(sku)
-};
+  skuObject = sku
+}
+const onClick = () => {
+  if (skuObject.skuId) {
+    console.log(count.value)
+    const cartStore = useCartStore()
+    cartStore.addCart({
+      id: goodsDetailData.id,
+      name: goodsDetailData.name,
+      picture: goodsDetailData.mainPictures[0],
+      price: goodsDetailData.price,
+      count: count.value,
+      skuId: skuObject.skuId,
+      attrs: skuObject.specsText,
+      selected: true,
+    })
+    ElMessage({ type: 'success', message: '商品添加成功' })
+  } else {
+    ElMessage.warning('请选择商品规格')
+  }
+}
 </script>
 
 <template>
@@ -41,12 +61,12 @@ const onSkuChange = (sku) => {
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <XtxImageView :image-list="goodsDetailData.mainPictures"/>
+              <XtxImageView :image-list="goodsDetailData.mainPictures" />
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
                   <p>销量人气</p>
-                  <p> {{ goodsDetailData.salesCount }}</p>
+                  <p>{{ goodsDetailData.salesCount }}</p>
                   <p><i class="iconfont icon-task-filling"></i>销量人气</p>
                 </li>
                 <li>
@@ -90,16 +110,13 @@ const onSkuChange = (sku) => {
                 </dl>
               </div>
               <!-- sku组件 -->
-              <XtxSku :goods="goodsDetailData" @change="onSkuChange"/>
+              <XtxSku :goods="goodsDetailData" @change="onSkuChange" />
               <!-- 数据组件 -->
-
+              <el-input-number v-model="count" :min="1" />
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn">
-                  加入购物车
-                </el-button>
+                <el-button size="large" class="btn" @Click="onClick"> 加入购物车 </el-button>
               </div>
-
             </div>
           </div>
           <div class="goods-footer">
@@ -118,14 +135,14 @@ const onSkuChange = (sku) => {
                     </li>
                   </ul>
                   <!-- 图片 -->
-                  <img v-for="item in goodsDetailData.details.pictures" :key="item" :src="item"/>
+                  <img v-for="item in goodsDetailData.details.pictures" :key="item" :src="item" />
                 </div>
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-              <HotGoods :type="1"/>
-              <HotGoods :type="2"/>
+              <HotGoods :type="1" />
+              <HotGoods :type="2" />
             </div>
           </div>
         </div>
@@ -134,8 +151,7 @@ const onSkuChange = (sku) => {
   </div>
 </template>
 
-
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .xtx-goods-page {
   .goods-info {
     min-height: 600px;
@@ -205,7 +221,7 @@ const onSkuChange = (sku) => {
 
     span {
       &::before {
-        content: "¥";
+        content: '¥';
         font-size: 14px;
       }
 
@@ -247,7 +263,7 @@ const onSkuChange = (sku) => {
             margin-right: 10px;
 
             &::before {
-              content: "•";
+              content: '•';
               color: $xtxColor;
               margin-right: 2px;
             }
@@ -272,13 +288,13 @@ const onSkuChange = (sku) => {
       flex: 1;
       position: relative;
 
-      ~li::after {
+      ~ li::after {
         position: absolute;
         top: 10px;
         left: 0;
         height: 60px;
         border-left: 1px solid #e4e4e4;
-        content: "";
+        content: '';
       }
 
       p {
@@ -326,7 +342,7 @@ const onSkuChange = (sku) => {
       font-size: 18px;
       position: relative;
 
-      >span {
+      > span {
         color: $priceColor;
         font-size: 16px;
         margin-left: 10px;
@@ -360,14 +376,13 @@ const onSkuChange = (sku) => {
     }
   }
 
-  >img {
+  > img {
     width: 100%;
   }
 }
 
 .btn {
   margin-top: 20px;
-
 }
 
 .bread-container {
